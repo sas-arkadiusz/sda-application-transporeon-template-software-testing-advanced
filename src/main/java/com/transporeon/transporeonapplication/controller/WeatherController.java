@@ -107,7 +107,7 @@ public class WeatherController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping
+    @PostMapping("/withCityName")
     public ResponseEntity<Void> addWeatherWithCityName(@RequestBody final WeatherRequestWithCityName request) {
         try {
             weatherService.addWeather(request);
@@ -125,7 +125,7 @@ public class WeatherController {
            created method should be tested or not. Decide if created tests should contain mocks or even
            the created test should be integration tests.
     */
-    @PostMapping
+    @PostMapping("/withCoordinates")
     public ResponseEntity<Void> addWeatherWithCoordinates(@RequestBody final WeatherRequestWithCoordinates request) {
         return ResponseEntity.noContent().build();
     }
