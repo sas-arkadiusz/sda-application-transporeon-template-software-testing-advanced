@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
-public class WeatherRequest {
+public class WeatherRequestWithCityName {
 
     private final String cityName;
     private final Timestamp date;

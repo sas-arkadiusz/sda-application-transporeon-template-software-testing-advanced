@@ -4,9 +4,12 @@ import com.transporeon.transporeonapplication.exception.WeatherNotFoundException
 import com.transporeon.transporeonapplication.exception.WeatherAlreadyExistsException;
 import com.transporeon.transporeonapplication.external.weatherapi.model.WeatherApi;
 import com.transporeon.transporeonapplication.external.weatherapi.service.WeatherApiService;
+import com.transporeon.transporeonapplication.mapper.HighestTemperatureResponseMapper;
 import com.transporeon.transporeonapplication.mapper.WeatherMapper;
+import com.transporeon.transporeonapplication.model.dto.WeatherDto;
 import com.transporeon.transporeonapplication.model.entity.WeatherEntity;
-import com.transporeon.transporeonapplication.model.request.WeatherRequest;
+import com.transporeon.transporeonapplication.model.request.WeatherRequestWithCityName;
+import com.transporeon.transporeonapplication.model.response.HighestTemperatureResponse;
 import com.transporeon.transporeonapplication.repository.WeatherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,23 +30,33 @@ public class WeatherService {
     private final WeatherApiService weatherApiService;
     private final WeatherRepository weatherRepository;
 
-    public List<WeatherEntity> getAllWeatherRecords() {
-        return weatherRepository.findAll();
+    public List<WeatherDto> getAllWeatherRecords() {
+        final List<WeatherEntity> allWeatherRecords = weatherRepository.findAll();
+        return allWeatherRecords.stream()
+                .map(WeatherMapper::map)
+                .collect(Collectors.toList());
     }
 
-    public WeatherEntity getWeatherForGivenCity(final String cityName) throws WeatherNotFoundException {
-        return weatherRepository.findByCityName(cityName).orElseThrow(WeatherNotFoundException::new);
+    public WeatherDto getWeatherForGivenCity(final String cityName) throws WeatherNotFoundException {
+        final WeatherEntity foundWeatherEntity = weatherRepository.findByCityName(cityName)
+                .orElseThrow(WeatherNotFoundException::new);
+        return WeatherMapper.map(foundWeatherEntity);
     }
 
-    public WeatherEntity getWeatherForGivenCityAndDate(final String cityName, final Timestamp date) throws WeatherNotFoundException {
-        return Optional.ofNullable(weatherRepository.findByCityNameAndDate(cityName, date)).orElseThrow(WeatherNotFoundException::new);
+    public WeatherDto getWeatherForGivenCityAndDate(final String cityName, final Timestamp date) throws WeatherNotFoundException {
+        final WeatherEntity foundWeatherEntity = Optional.ofNullable(weatherRepository.findByCityNameAndDate(cityName, date))
+                .orElseThrow(WeatherNotFoundException::new);
+        return WeatherMapper.map(foundWeatherEntity);
     }
 
-    public WeatherEntity getHottestCity() throws WeatherNotFoundException {
-        return Optional.ofNullable(weatherRepository.findByHighestTemp()).orElseThrow(WeatherNotFoundException::new);
+    public HighestTemperatureResponse getCityWithTheHighestTemperature() throws WeatherNotFoundException {
+        final WeatherEntity foundWeatherEntity = Optional.ofNullable(weatherRepository.findByHighestTemp())
+                .orElseThrow(WeatherNotFoundException::new);
+        final WeatherDto weatherDto = WeatherMapper.map(foundWeatherEntity);
+        return HighestTemperatureResponseMapper.map(weatherDto);
     }
 
-    public void addWeather(final WeatherRequest request) throws WeatherAlreadyExistsException {
+    public void addWeather(final WeatherRequestWithCityName request) throws WeatherAlreadyExistsException {
         final Optional<WeatherEntity> weatherFromDatabase = Optional.ofNullable(weatherRepository.findByCityNameAndDate(request.getCityName(), request.getDate()));
         if (weatherFromDatabase.isPresent()) {
             throw new WeatherAlreadyExistsException();

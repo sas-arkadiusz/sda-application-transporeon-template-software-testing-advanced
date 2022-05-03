@@ -4,10 +4,13 @@ import com.transporeon.transporeonapplication.external.weatherapi.model.City;
 import com.transporeon.transporeonapplication.external.weatherapi.model.ListItem;
 import com.transporeon.transporeonapplication.model.dto.WeatherDto;
 import com.transporeon.transporeonapplication.model.entity.WeatherEntity;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 import java.time.Instant;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class WeatherMapper {
 
     public static WeatherDto map(final WeatherEntity weatherEntity) {
