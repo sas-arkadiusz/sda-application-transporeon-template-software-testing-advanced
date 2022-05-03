@@ -6,7 +6,7 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "of")
 public class WeatherRequestWithCityName {
 
     private final String cityName;
