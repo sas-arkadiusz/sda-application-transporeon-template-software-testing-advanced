@@ -9,7 +9,6 @@ import com.transporeon.transporeonapplication.model.response.HighestTemperatureF
 import com.transporeon.transporeonapplication.model.response.HighestTemperatureResponse;
 import com.transporeon.transporeonapplication.service.WeatherService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,31 +29,22 @@ public class WeatherController {
     }
 
     @GetMapping("/{cityName}")
-    public ResponseEntity<WeatherDto> getWeatherForCity(@PathVariable final String cityName) {
-        try {
-            return ResponseEntity.ok(weatherService.getWeatherForGivenCity(cityName));
-        } catch (WeatherNotFoundException exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<WeatherDto> getWeatherForCity(@PathVariable final String cityName)
+            throws WeatherNotFoundException {
+        return ResponseEntity.ok(weatherService.getWeatherForGivenCity(cityName));
     }
 
     @GetMapping("/{cityName}/{date}")
     public ResponseEntity<WeatherDto> getWeatherForCityAndDate(@PathVariable final String cityName,
-                                                               @PathVariable final Timestamp date) {
-        try {
-            return ResponseEntity.ok(weatherService.getWeatherForGivenCityAndDate(cityName, date));
-        } catch (WeatherNotFoundException exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+                                                               @PathVariable final Timestamp date)
+            throws WeatherNotFoundException {
+        return ResponseEntity.ok(weatherService.getWeatherForGivenCityAndDate(cityName, date));
     }
 
     @GetMapping("/temperature/highest")
-    public ResponseEntity<HighestTemperatureResponse> getHighestTemperature() {
-        try {
-            return ResponseEntity.ok(weatherService.getCityWithTheHighestTemperature());
-        } catch (WeatherNotFoundException exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<HighestTemperatureResponse> getHighestTemperature()
+            throws WeatherNotFoundException {
+        return ResponseEntity.ok(weatherService.getCityWithTheHighestTemperature());
     }
 
     /*
@@ -108,13 +98,10 @@ public class WeatherController {
     }
 
     @PostMapping("/withCityName")
-    public ResponseEntity<Void> addWeatherWithCityName(@RequestBody final WeatherRequestWithCityName request) {
-        try {
-            weatherService.addWeather(request);
-            return ResponseEntity.ok().build();
-        } catch (WeatherAlreadyExistsException exception) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+    public ResponseEntity<Void> addWeatherWithCityName(@RequestBody final WeatherRequestWithCityName request)
+            throws WeatherAlreadyExistsException {
+        weatherService.addWeather(request);
+        return ResponseEntity.ok().build();
     }
 
     /*
