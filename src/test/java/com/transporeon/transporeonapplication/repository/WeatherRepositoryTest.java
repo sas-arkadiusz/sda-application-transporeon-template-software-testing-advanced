@@ -14,17 +14,46 @@ class WeatherRepositoryTest {
 
     @Test
     void findByCityNameAndDateShouldReturnWeatherEntity() {
-        double temp = 10;
-        String cityName = "Warsaw";
+        double temp = 15;
+        String cityName = "London";
 
-        WeatherEntity weather = new WeatherEntity();
-        weather.setCityName(cityName);
-        weather.setTemp(temp);
-
-        weatherRepository.save(weather);
+        saveWeatherWithCityNameAndTempToDatabase(cityName, temp);
 
         WeatherEntity weatherFoundByCityNameAndDate = weatherRepository.findByCityNameAndTemp(cityName, temp);
         Assertions.assertThat(weatherFoundByCityNameAndDate.getCityName()).isEqualTo(cityName);
         Assertions.assertThat(weatherFoundByCityNameAndDate.getTemp()).isEqualTo(temp);
     }
+
+    @Test
+    void findByHighestTempShouldReturnWeatherWithHighestTemp() {
+        saveWeatherWithCityNameAndTempToDatabase("Warsaw", 10.07);
+        saveWeatherWithCityNameAndTempToDatabase("Cracow", 12.37);
+
+        final WeatherEntity weatherWithHighestTemp = weatherRepository.findByHighestTemp();
+        Assertions.assertThat(weatherWithHighestTemp.getCityName()).isEqualTo("Cracow");
+    }
+
+    private WeatherEntity saveWeatherWithCityNameAndTempToDatabase(final String cityName, final double temp) {
+        final WeatherEntity weather = new WeatherEntity();
+        weather.setCityName(cityName);
+        weather.setTemp(temp);
+
+        return weatherRepository.save(weather);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

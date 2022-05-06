@@ -1,7 +1,6 @@
 package com.transporeon.transporeonapplication.repository;
 
 import com.transporeon.transporeonapplication.model.entity.WeatherEntity;
-import com.transporeon.transporeonapplication.service.WeatherService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

@@ -84,6 +84,6 @@ public class WeatherService {
     }
 
     private LocalDate stringToLocalDate(String date) {
-        return LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss[.SSS][.SS][.S]"));
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss[.SSSSSSS][.SSS][.SS][.S]"));
     }
 }
