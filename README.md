@@ -1,4 +1,4 @@
-# sda-application-transporeon-template-software-testing-advanced
+# Software Testing Advanced - Template
 
 ## ENDPOINTS
 - GET All Weather records
