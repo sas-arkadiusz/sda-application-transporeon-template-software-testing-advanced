@@ -1,6 +1,5 @@
 package com.transporeon.transporeonapplication.external.weatherapi.service;
 
-import com.transporeon.transporeonapplication.external.weatherapi.model.City;
 import com.transporeon.transporeonapplication.external.weatherapi.model.WeatherApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
