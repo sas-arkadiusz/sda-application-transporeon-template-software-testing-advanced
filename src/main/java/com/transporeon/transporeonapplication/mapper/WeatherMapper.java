@@ -14,7 +14,7 @@ import java.time.Instant;
 public class WeatherMapper {
 
     public static WeatherDto map(final WeatherEntity weatherEntity) {
-        WeatherDto weatherDto = new WeatherDto();
+        final WeatherDto weatherDto = new WeatherDto();
         weatherDto.setWeatherId(weatherEntity.getWeatherId());
         weatherDto.setCityName(weatherEntity.getCityName());
         weatherDto.setLon(weatherEntity.getLongitude());
@@ -30,7 +30,7 @@ public class WeatherMapper {
     }
 
     public static WeatherEntity map(final ListItem listItem, final City city) {
-        WeatherEntity weatherEntity = new WeatherEntity();
+        final WeatherEntity weatherEntity = new WeatherEntity();
         weatherEntity.setCityName(city.getName());
         weatherEntity.setLongitude(city.getCoord().getLon());
         weatherEntity.setLatitude(city.getCoord().getLat());
@@ -44,7 +44,7 @@ public class WeatherMapper {
         return weatherEntity;
     }
 
-    private static Timestamp parseUnixTimestampToSqlTimestamp(long unixTimestamp) {
+    private static Timestamp parseUnixTimestampToSqlTimestamp(final long unixTimestamp) {
         return Timestamp.from(Instant.ofEpochSecond(unixTimestamp));
     }
 }

@@ -38,7 +38,7 @@ class WeatherControllerIntegrationTest {
 
     @Test
     void addWeatherWithCityNameAddsRecordToDatabase() throws Exception {
-        WeatherRequestWithCityName request = WeatherRequestWithCityName.of("Warsaw", Timestamp.from(Instant.now()));
+        final WeatherRequestWithCityName request = WeatherRequestWithCityName.of("Warsaw", Timestamp.from(Instant.now()));
 
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:" + port + "/api/weather/withCityName")
                 .contentType(MediaType.APPLICATION_JSON)
